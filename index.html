@@ -3,25 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROCUS | Poki Style</title>
+    <title>ROCUS | Games Hub</title>
+    
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5wIIBRQ0+1k7OQAAAMNJREFUaN7t2jEOwyAMBdCh/1/qV2XqVqZKZKjU6Q6oYIu/CUS2M8YAAAAAfGvt8/m267b3dV1uu24L8MUCLECBU15ADZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHP6cOwAAAAAAuLcLHmsEaG+r07kAAAAASUVORK5CYII=">
+
     <style>
         :root {
-            --bg: #f0f4fb;
+            --poki-bg: #f0f4fb;
             --white: #ffffff;
-            --poki-blue: #32b0f0;
+            --blue: #32b0f0;
             --tag-bg: #e4e9f2;
-            --text: #333;
+            --radius: 20px;
         }
 
         body {
             font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-            background-color: var(--bg);
+            background-color: var(--poki-bg);
             margin: 0; padding: 0;
             display: flex; flex-direction: column;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* HEADER MIT SUCHE */
+        /* HEADER MIT SUCHE WIE BEI POKI */
         header {
             background: var(--white);
             padding: 10px 5%;
@@ -30,159 +34,176 @@
             position: sticky; top: 0; z-index: 1000;
         }
 
-        .logo { font-size: 32px; font-weight: 900; color: var(--poki-blue); letter-spacing: -2px; cursor: pointer; }
+        .logo { 
+            font-size: 32px; font-weight: 900; color: var(--blue); 
+            letter-spacing: -2px; cursor: pointer; text-decoration: none;
+        }
 
-        .search-container { position: relative; width: 250px; }
+        .search-container { position: relative; width: 260px; }
         .search-container input {
-            width: 100%; padding: 10px 15px; border-radius: 20px;
-            border: 2px solid var(--tag-bg); outline: none; font-weight: bold;
+            width: 100%; padding: 12px 20px; border-radius: 25px;
+            border: 2px solid var(--tag-bg); outline: none;
+            font-weight: bold; font-size: 14px; transition: 0.2s;
         }
+        .search-container input:focus { border-color: var(--blue); }
 
-        /* GAME GRID */
-        .main-container {
+        /* DYNAMISCHES GRID */
+        .grid {
             max-width: 1600px; margin: 20px auto; padding: 0 20px;
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            grid-auto-rows: 140px; gap: 12px; flex-grow: 1;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(135px, 1fr));
+            grid-auto-rows: 135px; gap: 12px; flex-grow: 1;
         }
 
-        .game-card {
-            background: var(--white); border-radius: 22px; position: relative;
-            overflow: hidden; cursor: pointer;
+        .card {
+            background: var(--white); border-radius: var(--radius);
+            position: relative; overflow: hidden; cursor: pointer;
             transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
         }
 
-        /* Poki-Layout Variationen */
-        .game-card.wide { grid-column: span 2; }
-        .game-card.tall { grid-row: span 2; }
-        .game-card.big { grid-column: span 2; grid-row: span 2; }
+        /* Zufällige Kachelgrößen im Poki-Stil */
+        .card.wide { grid-column: span 2; }
+        .card.tall { grid-row: span 2; }
+        .card.big { grid-column: span 2; grid-row: span 2; }
 
-        .game-card:hover { transform: scale(1.05); z-index: 10; box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
-        .game-card img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+        .card:hover { transform: scale(1.05); z-index: 10; box-shadow: 0 12px 24px rgba(0,0,0,0.15); }
+        .card img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* NAME ANIMATION (VON UNTEN) */
-        .game-name {
+        /* NAME HOVER EFFEKT */
+        .game-info {
             position: absolute; bottom: -50px; left: 0; right: 0;
-            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
             color: white; padding: 25px 10px 10px; font-size: 13px;
             font-weight: bold; text-align: center; transition: bottom 0.25s ease;
         }
-        .game-card:hover .game-name { bottom: 0; }
+        .card:hover .game-info { bottom: 0; }
 
-        /* KATEGORIEN SEKTION UNTEN */
-        footer { background: var(--white); padding: 50px 5%; margin-top: 50px; border-top: 2px solid #eef2f8; }
-        .cat-title { font-size: 24px; font-weight: 900; margin-bottom: 30px; text-align: center; }
-        .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; max-width: 1200px; margin: 0 auto; }
-        
-        .cat-tag {
-            background: var(--tag-bg); padding: 18px; border-radius: 18px;
-            text-align: center; font-weight: bold; color: #5b6b85;
-            cursor: pointer; transition: 0.2s; border: none; text-transform: uppercase; font-size: 12px;
+        /* KATEGORIEN GANZ UNTEN */
+        footer {
+            background: var(--white); padding: 50px 5%;
+            margin-top: 50px; border-top: 2px solid #eef2f8;
         }
-        .cat-tag:hover { background: var(--poki-blue); color: white; transform: translateY(-3px); }
+        .footer-title { font-size: 24px; font-weight: 900; text-align: center; margin-bottom: 30px; }
+        .cat-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 12px; max-width: 1200px; margin: 0 auto;
+        }
+        .cat-tag {
+            background: var(--tag-bg); padding: 18px; border-radius: 15px;
+            text-align: center; font-weight: bold; color: #5b6b85;
+            cursor: pointer; transition: 0.2s; border: none; text-transform: uppercase;
+        }
+        .cat-tag:hover { background: var(--blue); color: white; transform: translateY(-3px); }
 
-        /* PLAYER OVERLAY */
-        #player { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; flex-direction: column; }
-        .player-bar { padding: 12px; background: #f1f1f1; display: flex; align-items: center; justify-content: space-between; }
-        .back-btn { background: var(--poki-blue); color: white; border: none; padding: 10px 20px; border-radius: 12px; cursor: pointer; font-weight: bold; }
-        iframe { flex-grow: 1; border: none; background: #000; }
+        /* FULLSCREEN PLAYER */
+        #player {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%; background: #000; z-index: 2000;
+            flex-direction: column;
+        }
+        .bar { 
+            background: #f8f8f8; padding: 10px 5%; 
+            display: flex; justify-content: space-between; align-items: center; 
+        }
+        .back-btn {
+            background: var(--blue); color: white; border: none;
+            padding: 10px 25px; border-radius: 12px; cursor: pointer;
+            font-weight: bold; font-size: 16px;
+        }
+        iframe { flex-grow: 1; border: none; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo" onclick="location.reload()">ROCUS</div>
+    <a href="#" class="logo" onclick="location.reload()">ROCUS</a>
     <div class="search-container">
-        <input type="text" id="searchInput" placeholder="Nach Spielen suchen..." onkeyup="searchGames()">
+        <input type="text" id="gameSearch" placeholder="Spiel suchen..." onkeyup="filterSearch()">
     </div>
 </header>
 
-<div class="main-container" id="gameGrid"></div>
+<div class="grid" id="gameGrid"></div>
 
 <footer>
-    <div class="cat-title">ALLE KATEGORIEN</div>
+    <div class="footer-title">KATEGORIEN</div>
     <div class="cat-grid" id="catGrid"></div>
 </footer>
 
 <div id="player">
-    <div class="player-bar">
+    <div class="bar">
         <button class="back-btn" onclick="closeGame()">← ZURÜCK</button>
-        <span id="activeGameTitle" style="font-weight: bold;"></span>
-        <div style="width: 80px;"></div>
+        <span id="pTitle" style="font-weight: bold; font-size: 18px;"></span>
+        <div style="width: 100px;"></div>
     </div>
-    <iframe id="gameFrame" src="" allowfullscreen></iframe>
+    <iframe id="pFrame" src="" allowfullscreen></iframe>
 </div>
 
 <script>
-    let gamesData = [];
-    const categories = [
-        "Action", "Auto", "Ballern", "Mädchen", "Abenteuer", "Puzzle", "Multiplayer", 
-        "Geschicklichkeit", "Sport", "Krieg", "Simulator", "Denksport", "2-Spieler", 
-        "Handy", "Minecraft", "Stickman", "Laufen", "Kochen", "Tiere", "Rennen"
-    ];
+    let gamesDb = [];
+    const categories = ["Action", "Auto", "Ballern", "Mädchen", "Puzzle", "Abenteuer", "Sport", "Multiplayer", "Geschick", "Denksport"];
 
     async function init() {
         try {
-            const res = await fetch('https://games.gamepix.com/games?pagination=200');
-            const json = await res.json();
-            gamesData = json.data;
-            renderGames(gamesData);
-            renderCategories();
-        } catch (e) { console.error("Fehler beim Laden"); }
+            // Lädt 150 werbefreie Spiele
+            const response = await fetch('https://games.gamepix.com/games?pagination=150');
+            const result = await response.json();
+            gamesDb = result.data;
+            render(gamesDb);
+            renderCats();
+        } catch (e) { console.error("API Fehler"); }
     }
 
-    function renderGames(list) {
-        const grid = document.getElementById('gameGrid');
-        grid.innerHTML = '';
-        list.forEach((game, index) => {
+    function render(data) {
+        const container = document.getElementById('gameGrid');
+        container.innerHTML = '';
+        data.forEach((game, i) => {
             const card = document.createElement('div');
-            card.className = 'game-card';
+            card.className = 'card';
             
-            // Zufälliges Poki-Layout (Groß/Breit/Hoch)
-            if (index % 15 === 0) card.classList.add('big');
-            else if (index % 10 === 0) card.classList.add('wide');
-            else if (index % 7 === 0) card.classList.add('tall');
+            // Poki-Muster-Logik für verschiedene Kachelgrößen
+            if (i % 15 === 0) card.classList.add('big');
+            else if (i % 10 === 0) card.classList.add('wide');
+            else if (i % 7 === 0) card.classList.add('tall');
 
             card.innerHTML = `
                 <img src="${game.thumbnailUrl}" loading="lazy">
-                <div class="game-name">${game.title}</div>
+                <div class="game-info">${game.title}</div>
             `;
             card.onclick = () => openGame(game.url, game.title);
-            grid.appendChild(card);
+            container.appendChild(card);
         });
     }
 
-    function renderCategories() {
-        const cGrid = document.getElementById('catGrid');
+    function renderCats() {
+        const grid = document.getElementById('catGrid');
         categories.forEach(cat => {
             const btn = document.createElement('button');
             btn.className = 'cat-tag';
-            btn.innerText = cat + " Spiele";
+            btn.innerText = cat;
             btn.onclick = () => {
                 window.scrollTo({top: 0, behavior: 'smooth'});
-                const filtered = gamesData.sort(() => 0.5 - Math.random()).slice(0, 80);
-                renderGames(filtered);
+                render(gamesDb.sort(() => Math.random() - 0.5).slice(0, 80));
             };
-            cGrid.appendChild(btn);
+            grid.appendChild(btn);
         });
     }
 
-    function searchGames() {
-        const term = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = gamesData.filter(g => g.title.toLowerCase().includes(term));
-        renderGames(filtered);
+    function filterSearch() {
+        const val = document.getElementById('gameSearch').value.toLowerCase();
+        const filtered = gamesDb.filter(g => g.title.toLowerCase().includes(val));
+        render(filtered);
     }
 
     function openGame(url, title) {
-        document.getElementById('gameFrame').src = url;
-        document.getElementById('activeGameTitle').innerText = title;
+        document.getElementById('pFrame').src = url;
+        document.getElementById('pTitle').innerText = title;
         document.getElementById('player').style.display = 'flex';
         document.body.style.overflow = 'hidden';
     }
 
     function closeGame() {
         document.getElementById('player').style.display = 'none';
-        document.getElementById('gameFrame').src = "";
+        document.getElementById('pFrame').src = "";
         document.body.style.overflow = 'auto';
     }
 
