@@ -3,85 +3,76 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ROCUS | Online Spiele</title>
+    <title>ROCUS | Online Games</title>
     <style>
-        /* Poki-Style Design */
         :root {
+            --poki-bg: #f0f4fb;
+            --poki-white: #ffffff;
             --poki-blue: #32b0f0;
-            --poki-yellow: #ffde00;
-            --poki-bg: #f0f0f0;
-            --candy-gradient: linear-gradient(45deg, #ff75c3, #ffa647);
+            --poki-dark: #333333;
+            --poki-radius: 15px;
         }
 
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
+            font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
             background-color: var(--poki-bg);
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            color: var(--poki-dark);
         }
 
-        /* Header */
         header {
-            width: 100%;
-            background: #ffffff;
-            padding: 15px 0;
-            display: flex;
-            justify-content: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #4c4c4c;
-            letter-spacing: -1px;
-        }
-
-        /* CandyCloud Bereich */
-        .candy-cloud {
-            width: 90%;
-            max-width: 1200px;
-            background: var(--candy-gradient);
-            margin: 20px 0;
-            padding: 15px 25px;
-            border-radius: 20px;
-            color: white;
-            font-weight: bold;
+            background: var(--poki-white);
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 10px 20px rgba(255, 117, 195, 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        /* Game Grid wie bei Poki */
-        .container {
-            width: 95%;
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--poki-blue);
+            text-transform: uppercase;
+        }
+
+        .support-info {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .main-container {
             max-width: 1400px;
-            padding: 20px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        /* Das typische Poki-Grid */
+        .game-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 12px;
         }
 
         .game-card {
-            aspect-ratio: 1 / 1;
-            background: white;
-            border-radius: 18px;
+            background: var(--poki-white);
+            border-radius: var(--poki-radius);
+            aspect-ratio: 1/1;
             overflow: hidden;
             cursor: pointer;
-            transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.2s ease-in-out;
+            box-shadow: 0 4px 0 rgba(0,0,0,0.05);
             position: relative;
+            border: none;
         }
 
         .game-card:hover {
             transform: scale(1.08);
+            box-shadow: 0 8px 15px rgba(50, 176, 240, 0.3);
             z-index: 10;
         }
 
@@ -89,67 +80,64 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+            display: block;
         }
 
-        /* Overlay für Titel beim Hover */
-        .game-title {
+        .game-label {
             position: absolute;
             bottom: 0;
-            width: 100%;
-            background: rgba(255,255,255,0.9);
-            color: #333;
-            font-size: 0.8rem;
-            font-weight: bold;
-            padding: 5px 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.9);
+            font-size: 11px;
+            padding: 4px;
             text-align: center;
+            font-weight: bold;
             opacity: 0;
             transition: opacity 0.2s;
         }
 
-        .game-card:hover .game-title {
+        .game-card:hover .game-label {
             opacity: 1;
         }
 
-        /* Vollbild-Spiele-Player */
-        .modal {
+        /* Game Overlay Player */
+        #gameOverlay {
             display: none;
             position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: #fff;
-            z-index: 2000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--poki-white);
+            z-index: 9999;
             flex-direction: column;
         }
 
-        .modal-header {
+        .overlay-header {
             padding: 10px 20px;
-            background: #f8f8f8;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            background: #f8f8f8;
+            border-bottom: 1px solid #ddd;
         }
 
-        .back-btn {
+        .close-btn {
             background: var(--poki-blue);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 10px;
-            font-weight: bold;
+            padding: 8px 20px;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: bold;
+            margin-right: 20px;
         }
 
-        iframe {
+        #gameFrame {
             flex-grow: 1;
             border: none;
             width: 100%;
             height: 100%;
-        }
-
-        /* Responsive Anpassung */
-        @media (max-width: 600px) {
-            .container { grid-template-columns: repeat(3, 1fr); }
-            .candy-cloud { flex-direction: column; text-align: center; gap: 10px; }
         }
     </style>
 </head>
@@ -157,75 +145,74 @@
 
 <header>
     <div class="logo">ROCUS</div>
+    <div class="support-info">Support: AlenaGutsol</div>
 </header>
 
-<div class="candy-cloud">
-    <span>CANDY CLOUD 🔥</span>
-    <span>Support: AlenaGutsol</span>
+<div class="main-container">
+    <div class="game-grid" id="gameGrid">
+        </div>
 </div>
 
-<div class="container" id="gameGrid">
-    </div>
-
-<div class="modal" id="gameModal">
-    <div class="modal-header">
-        <button class="back-btn" onclick="closeGame()">← Zurück zu ROCUS</button>
-        <div id="activeTitle" style="font-weight: bold;">Spiel läuft...</div>
-        <div></div>
+<div id="gameOverlay">
+    <div class="overlay-header">
+        <button class="close-btn" onclick="closeGame()">X Schließen</button>
+        <span id="activeGameTitle" style="font-weight:bold;">Spiel läuft...</span>
     </div>
     <iframe id="gameFrame" src="" allowfullscreen></iframe>
 </div>
 
 <script>
-    // Liste von Spielen (Diese Quellen erlauben das Einbetten)
-    const games = [
-        { title: "Subway Surfers", thumb: "https://img.gamedistribution.com/53069151c51d459082ec06f23829035e-512x512.jpeg", url: "https://html5.gamedistribution.com/53069151c51d459082ec06f23829035e/" },
-        { title: "Moto X3M", thumb: "https://img.gamedistribution.com/26428d08659d437083656976f642da0f-512x512.jpeg", url: "https://html5.gamedistribution.com/26428d08659d437083656976f642da0f/" },
-        { title: "Temple Run", thumb: "https://img.gamedistribution.com/001f3f98285a4356b7f3292433894371-512x512.jpeg", url: "https://html5.gamedistribution.com/001f3f98285a4356b7f3292433894371/" },
-        { title: "Stickman Hook", thumb: "https://img.gamedistribution.com/9788d754c03c4f748f219741e2f7b405-512x512.jpeg", url: "https://html5.gamedistribution.com/9788d754c03c4f748f219741e2f7b405/" },
-        { title: "Classic Bowling", thumb: "https://img.gamedistribution.com/2660d5b62b714589980d0d869259a930-512x512.jpeg", url: "https://html5.gamedistribution.com/2660d5b62b714589980d0d869259a930/" },
-        { title: "Viking Clash", thumb: "https://img.gamedistribution.com/8327c57091c54b20a32039a04a589504-512x512.jpeg", url: "https://html5.gamedistribution.com/8327c57091c54b20a32039a04a589504/" },
-        { title: "Pool 8 Ball", thumb: "https://img.gamedistribution.com/c6e3922c2a2948c2b545d985a7065910-512x512.jpeg", url: "https://html5.gamedistribution.com/c6e3922c2a2948c2b545d985a7065910/" },
-        { title: "Fireboy & Watergirl", thumb: "https://img.gamedistribution.com/5277732a690d4076bbd3a3399b3802f0-512x512.jpeg", url: "https://html5.gamedistribution.com/5277732a690d4076bbd3a3399b3802f0/" },
-        { title: "Penalty Challenge", thumb: "https://img.gamedistribution.com/4952c938c823438096230f81d1e4e69b-512x512.jpeg", url: "https://html5.gamedistribution.com/4952c938c823438096230f81d1e4e69b/" },
-        { title: "Zombie Shooter", thumb: "https://img.gamedistribution.com/643f019f71f1442194f420b92f704b2b-512x512.jpeg", url: "https://html5.gamedistribution.com/643f019f71f1442194f420b92f704b2b/" },
-        { title: "Bubble Shooter", thumb: "https://img.gamedistribution.com/c09194285b02447eb5962002167d6c54-512x512.jpeg", url: "https://html5.gamedistribution.com/c09194285b02447eb5962002167d6c54/" },
-        { title: "Car Drift", thumb: "https://img.gamedistribution.com/8051a6663242456e8779836365b2610d-512x512.jpeg", url: "https://html5.gamedistribution.com/8051a6663242456e8779836365b2610d/" }
+    // Datenbank mit funktionierenden Links von GamePix (die erlauben Embedding)
+    const gameList = [
+        { title: "Subway Surfers", img: "https://www.gamepix.com/images/game/subway-surfers.png", url: "https://www.gamepix.com/play/subway-surfers" },
+        { title: "Moto X3M", img: "https://www.gamepix.com/images/game/moto-x3m.png", url: "https://www.gamepix.com/play/moto-x3m" },
+        { title: "Temple Run 2", img: "https://www.gamepix.com/images/game/temple-run-2.png", url: "https://www.gamepix.com/play/temple-run-2" },
+        { title: "Minecraft", img: "https://www.gamepix.com/images/game/minecraft-classic.png", url: "https://www.gamepix.com/play/minecraft-classic" },
+        { title: "Stickman Hook", img: "https://www.gamepix.com/images/game/stickman-hook.png", url: "https://www.gamepix.com/play/stickman-hook" },
+        { title: "Cut the Rope", img: "https://www.gamepix.com/images/game/cut-the-rope.png", url: "https://www.gamepix.com/play/cut-the-rope" },
+        { title: "Uno Online", img: "https://www.gamepix.com/images/game/uno-online.png", url: "https://www.gamepix.com/play/uno-online" },
+        { title: "Helix Jump", img: "https://www.gamepix.com/images/game/helix-jump.png", url: "https://www.gamepix.com/play/helix-jump" },
+        { title: "Flappy Bird", img: "https://www.gamepix.com/images/game/flappy-bird.png", url: "https://www.gamepix.com/play/flappy-bird" },
+        { title: "Among Us", img: "https://www.gamepix.com/images/game/among-us.png", url: "https://www.gamepix.com/play/among-us" },
+        { title: "2048", img: "https://www.gamepix.com/images/game/2048.png", url: "https://www.gamepix.com/play/2048" },
+        { title: "Paper.io", img: "https://www.gamepix.com/images/game/paper-io.png", url: "https://www.gamepix.com/play/paper-io-2" }
     ];
 
-    const grid = document.getElementById('gameGrid');
-    const modal = document.getElementById('gameModal');
-    const frame = document.getElementById('gameFrame');
-    const activeTitle = document.getElementById('activeTitle');
+    // Raster vervielfältigen für Poki-Look (36 Kacheln)
+    const fullList = [...gameList, ...gameList, ...gameList]; 
 
-    // Grid füllen
-    function init() {
-        games.forEach(game => {
+    const grid = document.getElementById('gameGrid');
+    const overlay = document.getElementById('gameOverlay');
+    const frame = document.getElementById('gameFrame');
+    const title = document.getElementById('activeGameTitle');
+
+    function createGrid() {
+        fullList.forEach((game, index) => {
             const card = document.createElement('div');
             card.className = 'game-card';
             card.innerHTML = `
-                <img src="${game.thumb}" alt="${game.title}">
-                <div class="game-title">${game.title}</div>
+                <img src="${game.img}" onerror="this.src='https://via.placeholder.com/150?text=Game'" alt="${game.title}">
+                <div class="game-label">${game.title}</div>
             `;
-            card.onclick = () => openGame(game);
+            card.onclick = () => openGame(game.url, game.title);
             grid.appendChild(card);
         });
     }
 
-    function openGame(game) {
-        frame.src = game.url;
-        activeTitle.innerText = game.title;
-        modal.style.display = 'flex';
-        document.body.style.overflow = 'hidden'; // Scrollen verhindern
+    function openGame(url, gameTitle) {
+        title.innerText = gameTitle;
+        frame.src = url;
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
     }
 
     function closeGame() {
-        modal.style.display = 'none';
+        overlay.style.display = 'none';
         frame.src = "";
         document.body.style.overflow = 'auto';
     }
 
-    init();
+    createGrid();
 </script>
 
 </body>
