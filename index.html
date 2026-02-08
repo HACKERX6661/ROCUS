@@ -5,47 +5,51 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROCUS | Games Hub</title>
     
-    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5wIIBRQ0+1k7OQAAAMNJREFUaN7t2jEOwyAMBdCh/1/qV2XqVqZKZKjU6Q6oYIu/CUS2M8YAAAAAfGvt8/m267b3dV1uu24L8MUCLECBU15ADZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHP6cOwAAAAAAuLcLHmsEaG+r07kAAAAASUVORK5CYII=">
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAABmJLR0QA/wD/AP+gvaeTAAAAB3RJTUUH5wIIBRQ0+1k7OQAAAMNJREFUaN7t2jEOwyAMBdCh/1/qV2XqVqZKZKjU6Q6oYIu/CUS2M8YAAAAAfGvt8/m267b3dV1uu24L8MUCLECBU15ADZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHZ69A9Th2TtAHP6cOwAAAAAAuLcLHmsEaG+r07kAAAAASUVORK5CYII=">
 
     <style>
         :root {
-            --poki-bg: #f0f4fb;
-            --white: #ffffff;
+            /* Hintergrund ist jetzt reinweiß */
+            --bg: #ffffff;
             --blue: #32b0f0;
-            --tag-bg: #e4e9f2;
+            --green: #00c853;
+            --tag-bg: #f0f2f5;
             --radius: 20px;
         }
 
         body {
             font-family: 'Arial Rounded MT Bold', Arial, sans-serif;
-            background-color: var(--poki-bg);
+            background-color: var(--bg);
             margin: 0; padding: 0;
             display: flex; flex-direction: column;
             min-height: 100vh;
             overflow-x: hidden;
         }
 
-        /* HEADER MIT SUCHE WIE BEI POKI */
+        /* HEADER MIT GRÜN-BLAUEM VERLAUF */
         header {
-            background: var(--white);
-            padding: 10px 5%;
+            background: linear-gradient(135deg, var(--green), var(--blue));
+            padding: 15px 5%;
             display: flex; justify-content: space-between; align-items: center;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             position: sticky; top: 0; z-index: 1000;
+            color: white;
         }
 
         .logo { 
-            font-size: 32px; font-weight: 900; color: var(--blue); 
+            font-size: 32px; font-weight: 900; color: white; 
             letter-spacing: -2px; cursor: pointer; text-decoration: none;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
 
         .search-container { position: relative; width: 260px; }
         .search-container input {
             width: 100%; padding: 12px 20px; border-radius: 25px;
-            border: 2px solid var(--tag-bg); outline: none;
+            border: none; outline: none;
             font-weight: bold; font-size: 14px; transition: 0.2s;
+            background: rgba(255,255,255,0.9);
         }
-        .search-container input:focus { border-color: var(--blue); }
+        .search-container input:focus { background: white; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); }
 
         /* DYNAMISCHES GRID */
         .grid {
@@ -55,7 +59,7 @@
         }
 
         .card {
-            background: var(--white); border-radius: var(--radius);
+            background: #f8f9fa; border-radius: var(--radius);
             position: relative; overflow: hidden; cursor: pointer;
             transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 4px 8px rgba(0,0,0,0.05);
@@ -80,10 +84,10 @@
 
         /* KATEGORIEN GANZ UNTEN */
         footer {
-            background: var(--white); padding: 50px 5%;
+            background: var(--bg); padding: 50px 5%;
             margin-top: 50px; border-top: 2px solid #eef2f8;
         }
-        .footer-title { font-size: 24px; font-weight: 900; text-align: center; margin-bottom: 30px; }
+        .footer-title { font-size: 24px; font-weight: 900; text-align: center; margin-bottom: 30px; color: #333; }
         .cat-grid {
             display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
             gap: 12px; max-width: 1200px; margin: 0 auto;
