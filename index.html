@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlenaGutsol Gaming Hub</title>
+    <style>
+        :root {
+            --primary-color: #6c5ce7;
+            --bg-color: #0f0c29;
+            --card-bg: #1e1b4b;
+            --text-color: #ffffff;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background: linear-gradient(90deg, #302b63, #24243e);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .container {
+            padding: 2rem 5%;
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .game-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .game-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(108, 92, 231, 0.4);
+        }
+
+        .game-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+        }
+
+        .game-info {
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Modal für das Spiel */
+        .game-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .modal-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+
+        .close-btn {
+            align-self: flex-end;
+            font-size: 2rem;
+            cursor: pointer;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 80vh;
+            border: none;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .support-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="logo">AlenaGutsol Games</div>
+    <nav>
+        <a href="#" class="support-link">Support: AlenaGutsol</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Beliebte Spiele</h2>
+    <div class="game-grid" id="gameGrid">
+        </div>
+</div>
+
+<div class="game-modal" id="gameModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeGame()">&times; Schließen</span>
+        <iframe id="gameFrame" src=""></iframe>
+    </div>
+</div>
+
+<script>
+    // Beispiel-Datenbank für deine Spiele
+    const games = [
+        {
+            title: "Space Adventure",
+            thumbnail: "https://images.unsplash.com/photo-1614732414444-096e5f1122d5?auto=format&fit=crop&w=300&q=80",
+            url: "https://www.google.com/logos/2010/pacman10-i.html" // Beispiel Link
+        },
+        {
+            title: "Geometry Jump",
+            thumbnail: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=300&q=80",
+            url: "https://www.effectgames.com/demos/canvascycle/"
+        },
+        {
+            title: "Retro Racer",
+            thumbnail: "https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=300&q=80",
+            url: "https://poki.com" // Hinweis: Manche Seiten blockieren Iframes
+        },
+        {
+            title: "Puzzle Master",
+            thumbnail: "https://images.unsplash.com/photo-1585338107529-13afc5f02586?auto=format&fit=crop&w=300&q=80",
+            url: "#"
+        }
+    ];
+
+    const gameGrid = document.getElementById('gameGrid');
+    const gameModal = document.getElementById('gameModal');
+    const gameFrame = document.getElementById('gameFrame');
+
+    // Spiele-Karten generieren
+    function loadGames() {
+        games.forEach(game => {
+            const card = document.createElement('div');
+            card.className = 'game-card';
+            card.innerHTML = `
+                <img src="${game.thumbnail}" alt="${game.title}">
+                <div class="game-info">
+                    <strong>${game.title}</strong>
+                </div>
+            `;
+            card.onclick = () => openGame(game.url);
+            gameGrid.appendChild(card);
+        });
+    }
+
+    function openGame(url) {
+        if(url === "#") {
+            alert("Dieses Spiel ist noch in der Entwicklung!");
+            return;
+        }
+        gameFrame.src = url;
+        gameModal.style.display = 'flex';
+    }
+
+    function closeGame() {
+        gameModal.style.display = 'none';
+        gameFrame.src = "";
+    }
+
+    // Initialisierung
+    loadGames();
+
+    // Schließen wenn man außerhalb klickt
+    window.onclick = function(event) {
+        if (event.target == gameModal) {
+            closeGame();
+        }
+    }
+</script>
+
+</body>
+</html>
